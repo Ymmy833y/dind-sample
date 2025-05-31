@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  dind:
+    container_name: dind
+    image: docker:24-dind
+    privileged: true
+    environment:
+      DOCKER_TLS_CERTDIR: ""
+    entrypoint: /usr/local/bin/boot-dind.sh
+    ports:
+      - "2375:2375"
+      - "3307:3306"
+    volumes:
+      - dind-data:/var/lib/docker
+      - ./boot-dind.sh:/usr/local/bin/boot-dind.sh:ro
+    healthcheck:
+      test: ["CMD-SHELL",
+             "docker ps --filter name=inner-mysql --filter status=running --format '{{.Names}}' | grep -q inner-mysql"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+volumes:
+  dind-data:
+  mysql-data:
