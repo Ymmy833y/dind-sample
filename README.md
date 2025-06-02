@@ -34,7 +34,7 @@ graph TD
 
   %% 接続（ラベルはコメントにして視覚を簡潔に）
   host_compose -->|2375| dockerd
-  host_compose -->|3307→3306| dockerd
+  host_compose -->|3306| dockerd
   host_compose -->|6379| dockerd
 
   dockerd -->|3306| mysql
