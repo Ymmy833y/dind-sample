@@ -10,18 +10,7 @@ services:
     entrypoint: /usr/local/bin/boot-dind.sh
     ports:
       - "2375:2375"
-      - "3307:3306"
+      - "3306:3306"
+      - "6379:6379"
     volumes:
-      - dind-data:/var/lib/docker
       - ./boot-dind.sh:/usr/local/bin/boot-dind.sh:ro
-    healthcheck:
-      test: ["CMD-SHELL",
-             "docker ps --filter name=inner-mysql --filter status=running --format '{{.Names}}' | grep -q inner-mysql"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 20s
-
-volumes:
-  dind-data:
-  mysql-data:
